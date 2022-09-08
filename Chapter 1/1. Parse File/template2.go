@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func main() {
+func main2() {
 	name := os.Args[1]
 	fmt.Println(os.Args[0])
 	fmt.Println(os.Args[1])

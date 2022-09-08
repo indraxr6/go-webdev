@@ -8,20 +8,17 @@ import (
 type dog int
 type cat int
 
-func (d dog) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+func d(res http.ResponseWriter, req *http.Request) {
 	io.WriteString(res, "ppppppppppp")
 }
 
-func (c cat) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+func c(res http.ResponseWriter, req *http.Request) {
 	io.WriteString(res, "wwwww")
 }
 
 func main() {
-	var d dog
-	var c cat
-	mux := http.NewServeMux()
-	mux.Handle("/dog/", d)
-	mux.Handle("/cat", c)
+	http.HandleFunc("/dog/", d)
+	http.HandleFunc("/cat", c)
 
-	http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(":8080", nil)
 }

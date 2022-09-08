@@ -1,11 +1,21 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
-	"io"
 	"log"
 	"net"
 )
+
+func handle(conn net.Conn) {
+	scanner := bufio.NewScanner(conn)
+	for scanner.Scan() {
+		ln := scanner.Text()
+		fmt.Println(ln)
+	}
+	defer conn.Close()
+	fmt.Println("Code got here.")
+}
 
 func main() {
 	li, err := net.Listen("tcp", ":8080")
@@ -17,11 +27,9 @@ func main() {
 	for {
 		conn, err := li.Accept()
 		if err != nil {
-			log.Fatalln(err)
+			log.Println(err)
+			continue
 		}
-		io.WriteString(conn, "Hello from TCP server\n")
-		fmt.Println(conn, "connection")
-
-		conn.Close()
+		go handle(conn)
 	}
 }
